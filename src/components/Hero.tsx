@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Twitter } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const Hero = () => {
   return (
@@ -38,7 +39,7 @@ const Hero = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-2xl md:text-4xl font-semibold text-foreground/80"
             >
-              Software Developer & GitHub Enthusiast
+              Software Developer & Creator of Codora
             </motion.h2>
 
             <motion.p
@@ -48,7 +49,8 @@ const Hero = () => {
               className="text-muted-foreground max-w-lg"
             >
               I build innovative web applications and tools using modern technologies. 
-              Passionate about open source and creating experiences that make a difference.
+              Currently working on Codora, an AI-powered quiz platform for developers 
+              that enables competitive learning and skill assessment.
             </motion.p>
 
             <motion.div
@@ -95,11 +97,14 @@ const Hero = () => {
             <div className="relative w-full h-96">
               <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/20 to-neon-purple/20 rounded-full blur-3xl opacity-30 animate-float"></div>
               <div className="relative w-full h-full flex items-center justify-center">
-                <div className="w-64 h-64 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple p-1">
-                  <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
-                    <span className="text-5xl font-bold bg-gradient-to-r from-neon-blue via-neon-purple to-neon-teal bg-clip-text text-transparent">S</span>
-                  </div>
-                </div>
+                <Avatar className="w-64 h-64">
+                  <AvatarImage 
+                    src="/lovable-uploads/afb6628c-5343-4162-bc28-1ae8dab76ca5.png" 
+                    alt="Syrillings" 
+                    className="object-cover"
+                  />
+                  <AvatarFallback>S</AvatarFallback>
+                </Avatar>
               </div>
             </div>
           </motion.div>
