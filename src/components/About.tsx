@@ -47,29 +47,35 @@ const About = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h3 className="text-2xl font-bold mb-6">My Story</h3>
-            <div className="space-y-4 text-muted-foreground">
-              <p>
-                I'm a passionate software developer with a strong focus on creating intuitive and performant web applications. 
-                My journey in tech began when I first discovered the power of code to solve real-world problems and transform ideas into reality.
-              </p>
-              <p>
-                Over the years, I've developed a deep expertise in frontend technologies, 
-                with a particular love for React, TypeScript, and Vue.js. I believe in writing clean, maintainable code 
-                that stands the test of time and can be easily understood by other developers.
-              </p>
-              <p>
-                When I'm not coding, you can find me contributing to open-source projects, reading Sidney Sheldon, 
-                or exploring new technologies that could enhance my toolkit. I'm always looking to learn, grow, and push the boundaries of what's possible. I'm currently learning Golang and React-Native
-              </p>
-            </div>
-          </motion.div>
+        <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5 }}
+  className="px-4 sm:px-6 md:px-8 max-w-3xl mx-auto"
+>
+  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-foreground">
+    My Story
+  </h3>
+
+  <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+    <p>
+      I'm a passionate software developer with a strong focus on creating intuitive and performant web applications. 
+      My journey in tech began when I first discovered the power of code to solve real-world problems and transform ideas into reality.
+    </p>
+    <p>
+      Over my tim ein this field, I've developed a deep expertise in frontend technologies, 
+      with a particular love for React, TypeScript, and Vue.js. I believe in writing clean, maintainable code 
+      that stands the test of time and can be easily understood by other developers.
+    </p>
+    <p>
+      When I'm not coding, you can find me contributing to open-source projects, reading Sidney Sheldon, 
+      or exploring new technologies that could enhance my toolkit. I'm always looking to learn, grow, and push the boundaries of what's possible. 
+      I'm currently learning Golang and React Native.
+    </p>
+  </div>
+</motion.div>
+
 
           <div className="space-y-12">
             <motion.div
