@@ -59,7 +59,7 @@ const Contact = () => {
     {
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
-      value: "(0) 8148202992",
+      value: "+2348148202992",
           },
     {
       icon: <MapPin className="w-5 h-5" />,

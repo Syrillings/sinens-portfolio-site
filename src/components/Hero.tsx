@@ -86,9 +86,7 @@ const Hero = () => {
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-neon-blue transition-colors">
               <Linkedin className="w-6 h-6" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-neon-blue transition-colors">
-              <Twitter className="w-6 h-6" />
-            </a>
+           
           </motion.div>
   
           {/* MOBILE AVATAR */}
