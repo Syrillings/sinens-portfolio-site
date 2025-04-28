@@ -16,22 +16,19 @@ const skills: Skill[] = [
   { name: 'HTML/CSS', level: 90, category: 'frontend', color: 'from-orange-500 to-red-500' },
   { name: 'JavaScript', level: 85, category: 'frontend', color: 'from-yellow-400 to-amber-500' },
   { name: 'React', level: 80, category: 'frontend', color: 'from-cyan-400 to-blue-500' },
+  { name: 'Vue', level: 80, category: 'frontend', color: 'from-green-500 to-emerald-600' },
   { name: 'TypeScript', level: 75, category: 'frontend', color: 'from-blue-500 to-indigo-600' },
   { name: 'Tailwind CSS', level: 85, category: 'frontend', color: 'from-cyan-500 to-blue-600' },
   
   // Backend
-  { name: 'Node.js', level: 80, category: 'backend', color: 'from-green-500 to-emerald-600' },
-  { name: 'Express', level: 75, category: 'backend', color: 'from-gray-600 to-gray-800' },
-  { name: 'Python', level: 70, category: 'backend', color: 'from-blue-600 to-indigo-700' },
-  { name: 'MongoDB', level: 65, category: 'backend', color: 'from-green-600 to-green-800' },
-  { name: 'SQL', level: 60, category: 'backend', color: 'from-orange-600 to-red-600' },
+  { name: 'Node.js', level: 50, category: 'backend', color: 'from-green-500 to-emerald-600' },
+  { name: 'Express', level: 55, category: 'backend', color: 'from-gray-600 to-gray-800' },
+  
   
   // Tools
   { name: 'Git', level: 85, category: 'tools', color: 'from-orange-600 to-red-700' },
-  { name: 'Docker', level: 65, category: 'tools', color: 'from-blue-500 to-blue-700' },
-  { name: 'CI/CD', level: 70, category: 'tools', color: 'from-purple-500 to-purple-800' },
-  { name: 'AWS', level: 60, category: 'tools', color: 'from-amber-500 to-orange-600' },
-  { name: 'Testing', level: 75, category: 'tools', color: 'from-green-500 to-green-700' },
+   { name: 'CI/CD', level: 70, category: 'tools', color: 'from-purple-500 to-purple-800' },
+    { name: 'Testing', level: 75, category: 'tools', color: 'from-green-500 to-green-700' },
 ];
 
 const SkillBar = ({ skill, index }: { skill: Skill; index: number }) => {

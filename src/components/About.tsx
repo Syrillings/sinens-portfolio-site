@@ -5,31 +5,25 @@ import { Separator } from '@/components/ui/separator';
 const About = () => {
   const experiences = [
     {
-      period: "2020 - Present",
-      title: "Senior Software Developer",
-      company: "Tech Company",
-      description: "Leading development of web applications using React, TypeScript, and Node.js. Implementing CI/CD pipelines and mentoring junior developers."
+      period: "2024 - Present",
+      title: "FrontEnd Developer",
+      company: "Faschcom Ltd",
+      description: "Contributed heavily to the development of web applications using React, TypeScript."
     },
     {
-      period: "2018 - 2020",
-      title: "Full Stack Developer",
-      company: "Digital Agency",
-      description: "Built responsive web applications and RESTful APIs. Worked with React, Express, and MongoDB."
-    },
-    {
-      period: "2016 - 2018",
-      title: "Frontend Developer",
-      company: "Startup Inc",
-      description: "Developed user interfaces using modern JavaScript frameworks and CSS preprocessors."
+      period: "Ferbruary 2025 - April 2025",
+      title: "Frontend Developer (Contract)",
+      company: "MecurixTech",
+      description: "Built responsive web E-commerce applications  Worked with React, Next.js, Typescript and TailwindCSS. Also integrated the formtend of the application with backend endpoints."
     }
   ];
 
   const education = [
     {
-      period: "2012 - 2016",
+      period: "2023 - 2027",
       degree: "Bachelor of Science in Computer Science",
-      institution: "University of Technology",
-      description: "Focused on software engineering and web development. Graduated with honors."
+      institution: "University of Uyo, Uyo",
+      description: "Focusing on software engineering and web development as well as computational practices and intuitive problem solving ."
     }
   ];
 
@@ -66,13 +60,13 @@ const About = () => {
                 My journey in tech began when I first discovered the power of code to solve real-world problems and transform ideas into reality.
               </p>
               <p>
-                Over the years, I've developed a deep expertise in frontend and backend technologies, 
-                with a particular love for React, TypeScript, and Node.js. I believe in writing clean, maintainable code 
+                Over the years, I've developed a deep expertise in frontend technologies, 
+                with a particular love for React, TypeScript, and Vue.js. I believe in writing clean, maintainable code 
                 that stands the test of time and can be easily understood by other developers.
               </p>
               <p>
-                When I'm not coding, you can find me contributing to open-source projects, mentoring aspiring developers, 
-                or exploring new technologies that could enhance my toolkit. I'm always looking to learn, grow, and push the boundaries of what's possible.
+                When I'm not coding, you can find me contributing to open-source projects, reading Sidney Sheldon, 
+                or exploring new technologies that could enhance my toolkit. I'm always looking to learn, grow, and push the boundaries of what's possible. I'm currently learning Golang and React-Native
               </p>
             </div>
           </motion.div>

@@ -30,7 +30,7 @@ const Hero = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-neon-blue via-neon-purple to-neon-teal bg-clip-text text-transparent animate-gradient-x"
             >
-              Syrillings
+              Sinen
             </motion.h1>
 
             <motion.h2
@@ -39,7 +39,7 @@ const Hero = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-2xl md:text-4xl font-semibold text-foreground/80"
             >
-              Software Developer & Creator of Codora
+              Software (Frontend) Developer 
             </motion.h2>
 
             <motion.p
