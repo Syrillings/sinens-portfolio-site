@@ -8,13 +8,13 @@ const About = () => {
       period: "2024 - Present",
       title: "FrontEnd Developer",
       company: "Faschcom Ltd",
-      description: "Contributed heavily to the development of web applications using React, TypeScript."
+      description: "Contributed heavily to the development of web applications using React, TypeScript and TailwindCSS."
     },
     {
       period: "Ferbruary 2025 - April 2025",
       title: "Frontend Developer (Contract)",
       company: "MecurixTech",
-      description: "Built responsive web E-commerce applications  Worked with React, Next.js, Typescript and TailwindCSS. Also integrated the formtend of the application with backend endpoints."
+      description: "Contributed to the development of a responsive  vendor E-commerce web applications. Worked with React, Next.js, Typescript and TailwindCSS. Also integrated the frontend of the application with the backend API endpoints."
     }
   ];
 
