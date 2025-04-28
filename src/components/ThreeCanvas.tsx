@@ -47,7 +47,12 @@ const ParticleField = ({ count = 1000 }) => {
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <dodecahedronGeometry args={[0.2, 0]} />
-      <meshStandardMaterial color="#8e44ad" emissive="#8e44ad" emissiveIntensity={0.3} toneMapped={false} />
+      <meshStandardMaterial 
+        color="#8e44ad" 
+        emissive="#8e44ad" 
+        emissiveIntensity={0.3} 
+        toneMapped={false} 
+      />
     </instancedMesh>
   );
 };
