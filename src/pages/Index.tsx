@@ -8,6 +8,7 @@ import Skills from '@/components/Skills';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import CodoraSection from '@/components/CodoraSection';
 
 const Index = () => {
   // Scroll to the top when the component mounts
@@ -20,6 +21,7 @@ const Index = () => {
       <ThreeCanvas />
       <NavBar />
       <Hero />
+      <CodoraSection />
       <Projects />
       <Skills />
       <About />
