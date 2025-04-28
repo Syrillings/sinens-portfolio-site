@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +12,7 @@ const languageColors: Record<string, string> = {
   TypeScript: "bg-blue-500",
   HTML: "bg-orange-500",
   CSS: "bg-purple-500",
+  Vue:"bg-green-400",
   Python: "bg-green-500",
   Java: "bg-red-500",
   Ruby: "bg-red-700",
@@ -25,6 +25,15 @@ const languageColors: Record<string, string> = {
   "C#": "bg-green-600",
   "C++": "bg-pink-600",
 };
+
+const featuredProjects = [
+  "Monk_Mode",
+  "cosmic-discoveries",
+  "Tella",
+  "TribeLight",
+  "SEN211-Project",
+  "Travel-Smart",
+];
 
 const ProjectCard = ({ project, index }: { project: Repository; index: number }) => {
   return (
@@ -89,6 +98,10 @@ const ProjectCard = ({ project, index }: { project: Repository; index: number })
 const Projects = () => {
   const { repositories, loading, error } = useGitHubRepositories('Syrillings');
 
+  const filteredRepositories = repositories.filter((repo) =>
+    featuredProjects.includes(repo.name)
+  );
+
   return (
     <section id="projects" className="py-20 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -103,7 +116,7 @@ const Projects = () => {
             My <span className="bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">Projects</span>
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            A collection of my work from GitHub showcasing my skills and experience.
+            A curated collection of my work from GitHub showcasing my skills and experience.
           </p>
           <Separator className="max-w-md mx-auto mt-8" />
         </motion.div>
@@ -120,13 +133,13 @@ const Projects = () => {
           <div className="text-center text-red-500">
             <p>Error loading projects. Please try again later.</p>
           </div>
-        ) : repositories.length === 0 ? (
+        ) : filteredRepositories.length === 0 ? (
           <div className="text-center text-muted-foreground">
             <p>No repositories found.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {repositories.slice(0, 6).map((repo, index) => (
+            {filteredRepositories.map((repo, index) => (
               <ProjectCard key={repo.id} project={repo} index={index} />
             ))}
           </div>
