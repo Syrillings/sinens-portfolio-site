@@ -14,7 +14,7 @@ const About = () => {
       period: "Ferbruary 2025 - April 2025",
       title: "Frontend Developer (Contract)",
       company: "MecurixTech",
-      description: "Contributed to the development of a responsive  vendor E-commerce web applications. Worked with React, Next.js, Typescript and TailwindCSS. Also integrated the frontend of the application with the backend API endpoints."
+      description: "Contributed to the development of a responsive vendor E-commerce web applications. Worked with React, Next.js, Typescript and TailwindCSS. Also integrated the frontend of the application with the backend API endpoints."
     }
   ];
 
