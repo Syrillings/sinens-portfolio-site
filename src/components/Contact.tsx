@@ -44,9 +44,7 @@ const Contact = () => {
           template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
           user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
           template_params: {
-            from_name: formData.name,
-            from_email: formData.email,
-            message: formData.message,
+            message: `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
           },
         }),
       });
