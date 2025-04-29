@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -17,6 +18,24 @@ const Contact = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // EmailJS configuration
+  const [emailjsConfig, setEmailjsConfig] = useState({
+    serviceId: '',
+    templateId: '',
+    publicKey: ''
+  });
+  
+  // Twilio WhatsApp configuration
+  const [twilioConfig, setTwilioConfig] = useState({
+    accountSid: '',
+    authToken: '',
+    whatsappNumber: '',
+    personalNumber: ''
+  });
+  
+  // Show/hide configuration form
+  const [showConfig, setShowConfig] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -25,73 +44,78 @@ const Contact = () => {
       [name]: value,
     }));
   };
+  
+  const handleConfigChange = (e: React.ChangeEvent<HTMLInputElement>, configType: 'emailjs' | 'twilio') => {
+    const { name, value } = e.target;
+    
+    if (configType === 'emailjs') {
+      setEmailjsConfig(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    } else {
+      setTwilioConfig(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          service_id: process.env.REACT_APP_EMAILJS_SERVICE_ID,
-          template_id: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-          user_id: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
-          template_params: {
+      // Send email via EmailJS
+      if (emailjsConfig.serviceId && emailjsConfig.templateId && emailjsConfig.publicKey) {
+        emailjs.init(emailjsConfig.publicKey);
+        
+        await emailjs.send(
+          emailjsConfig.serviceId,
+          emailjsConfig.templateId,
+          {
             from_name: formData.name,
             from_email: formData.email,
             subject: formData.subject,
             message: formData.message
           }
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to send email');
+        );
       }
 
-    
-     const whatsappResponse = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${process.env.REACT_APP_TWILIO_ACCOUNT_SID}/Messages.json`, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Basic ' + btoa(`${process.env.REACT_APP_TWILIO_ACCOUNT_SID}:${process.env.REACT_APP_TWILIO_AUTH_TOKEN}`),
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        'From': process.env.REACT_APP_TWILIO_WHATSAPP_NUMBER,
-        'To': process.env.REACT_APP_PERSONAL_WHATSAPP_NUMBER,
-        'Body': `New message from ${formData.name} (${formData.email}):\n${formData.message}`
-      }),
-    });
+      // Send WhatsApp via direct link (no API needed)
+      // This opens WhatsApp with a pre-filled message but doesn't send automatically
+      if (twilioConfig.personalNumber) {
+        const formattedNumber = twilioConfig.personalNumber.replace(/\D/g, '');
+        const whatsappMessage = `New message from ${formData.name} (${formData.email}):\n${formData.message}`;
+        const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        
+        // Open WhatsApp in a new window
+        window.open(whatsappUrl, '_blank');
+      }
 
-    if (!whatsappResponse.ok) {
-      throw new Error('Failed to send WhatsApp message');
+      toast({
+        title: "Message sent!",
+        description: "Thank you for contacting me. I'll get back to you soon!",
+        duration: 5000,
+      });
+
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    toast({
-      title: "Message sent!",
-      description: "Thank you for contacting me. I'll get back to you soon!",
-      duration: 5000,
-    });
-
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    });
-  } catch (error) {
-    toast({
-      title: "Error",
-      description: "Failed to send message. Please try again.",
-      variant: "destructive",
-    });
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   const contactInfo = [
     {
@@ -104,7 +128,8 @@ const Contact = () => {
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
       value: "+2348148202992",
-          },
+      href: "tel:+2348148202992"
+    },
     {
       icon: <MapPin className="w-5 h-5" />,
       label: "Location",
@@ -194,6 +219,69 @@ const Contact = () => {
                 </a>
               </div>
             </div>
+            
+            <Button 
+              onClick={() => setShowConfig(!showConfig)} 
+              variant="outline" 
+              className="mt-6"
+              size="sm"
+            >
+              {showConfig ? "Hide Configuration" : "Configure Email/WhatsApp"}
+            </Button>
+            
+            {showConfig && (
+              <div className="mt-4 p-4 border rounded-md space-y-4">
+                <h4 className="text-sm font-medium">EmailJS Configuration</h4>
+                <div className="space-y-2">
+                  <div>
+                    <label htmlFor="serviceId" className="text-xs">Service ID</label>
+                    <Input 
+                      id="serviceId" 
+                      name="serviceId" 
+                      value={emailjsConfig.serviceId}
+                      onChange={(e) => handleConfigChange(e, 'emailjs')}
+                      placeholder="EmailJS Service ID"
+                      size="sm"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="templateId" className="text-xs">Template ID</label>
+                    <Input 
+                      id="templateId" 
+                      name="templateId" 
+                      value={emailjsConfig.templateId}
+                      onChange={(e) => handleConfigChange(e, 'emailjs')}
+                      placeholder="EmailJS Template ID"
+                      size="sm"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="publicKey" className="text-xs">Public Key</label>
+                    <Input 
+                      id="publicKey" 
+                      name="publicKey" 
+                      value={emailjsConfig.publicKey}
+                      onChange={(e) => handleConfigChange(e, 'emailjs')}
+                      placeholder="EmailJS Public Key"
+                      size="sm"
+                    />
+                  </div>
+                </div>
+                
+                <h4 className="text-sm font-medium mt-4">WhatsApp Configuration</h4>
+                <div>
+                  <label htmlFor="personalNumber" className="text-xs">Your WhatsApp Number (with country code)</label>
+                  <Input 
+                    id="personalNumber" 
+                    name="personalNumber" 
+                    value={twilioConfig.personalNumber}
+                    onChange={(e) => handleConfigChange(e, 'twilio')}
+                    placeholder="e.g. 2348148202992"
+                    size="sm"
+                  />
+                </div>
+              </div>
+            )}
           </motion.div>
           
           <motion.div 
