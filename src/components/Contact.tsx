@@ -25,29 +25,73 @@ const Contact = () => {
       [name]: value,
     }));
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    
-    setTimeout(() => {
-      setIsSubmitting(false);
-      
-      toast({
-        title: "Message sent!",
-        description: "Thank you for contacting me. I'll get back to you soon!",
-        duration: 5000,
+
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: process.env.REACT_APP_EMAILJS_SERVICE_ID,
+          template_id: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+          user_id: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            from_name: formData.name,
+            from_email: formData.email,
+            subject: formData.subject,
+            message: formData.message
+          }
+        }),
       });
-      
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      });
-    }, 1500);
-  };
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+    
+     const whatsappResponse = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${process.env.REACT_APP_TWILIO_ACCOUNT_SID}/Messages.json`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + btoa(`${process.env.REACT_APP_TWILIO_ACCOUNT_SID}:${process.env.REACT_APP_TWILIO_AUTH_TOKEN}`),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        'From': process.env.REACT_APP_TWILIO_WHATSAPP_NUMBER,
+        'To': process.env.REACT_APP_PERSONAL_WHATSAPP_NUMBER,
+        'Body': `New message from ${formData.name} (${formData.email}):\n${formData.message}`
+      }),
+    });
+
+    if (!whatsappResponse.ok) {
+      throw new Error('Failed to send WhatsApp message');
+    }
+
+    toast({
+      title: "Message sent!",
+      description: "Thank you for contacting me. I'll get back to you soon!",
+      duration: 5000,
+    });
+
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+    });
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: "Failed to send message. Please try again.",
+      variant: "destructive",
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const contactInfo = [
     {

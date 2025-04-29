@@ -17,6 +17,7 @@ const skills: Skill[] = [
   { name: 'JavaScript', level: 85, category: 'frontend', color: 'from-yellow-400 to-amber-500' },
   { name: 'React', level: 80, category: 'frontend', color: 'from-cyan-400 to-blue-500' },
   { name: 'Vue', level: 80, category: 'frontend', color: 'from-green-500 to-emerald-600' },
+  { name: 'Ionic-Capacitor', level: 90, category: 'frontend', color: 'from-green-500 to-emerald-600' },
   { name: 'TypeScript', level: 75, category: 'frontend', color: 'from-blue-500 to-indigo-600' },
   { name: 'Tailwind CSS', level: 85, category: 'frontend', color: 'from-cyan-500 to-blue-600' },
   
