@@ -7,14 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import emailjs from '@emailjs/browser';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+
 
 const Contact = () => {
   const { toast } = useToast();
@@ -24,7 +17,6 @@ const Contact = () => {
     subject: '',
     message: '',
   });
-  
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -35,20 +27,61 @@ const Contact = () => {
       [name]: value,
     }));
   };
-  
-  const handleConfigChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-   
-  };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-   
+      // Send Email via EmailJS
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            from_name: formData.name,
+            from_email: formData.email,
+            message: formData.message,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      
+    //   const whatsappResponse = await fetch(
+    //     `https://api.twilio.com/2010-04-01/Accounts/${import.meta.env.VITE_TWILIO_ACCOUNT_SID}/Messages.json`,
+    //     {
+    //       method: 'POST',
+    //       headers: {
+    //         Authorization:
+    //           'Basic ' +
+    //           btoa(
+    //             `${import.meta.env.VITE_TWILIO_ACCOUNT_SID}:${import.meta.env.VITE_TWILIO_AUTH_TOKEN}`
+    //           ),
+    //         'Content-Type': 'application/x-www-form-urlencoded',
+    //       },
+    //       body: new URLSearchParams({
+    //         From: import.meta.env.VITE_TWILIO_WHATSAPP_NUMBER!,
+    //         To: import.meta.env.VITE_PERSONAL_WHATSAPP_NUMBER!,
+    //         Body: `New message from ${formData.name} (${formData.email}):\n${formData.message}`,
+    //       }),
+    //     }
+    //   );
+
+    //   if (!whatsappResponse.ok) {
+    //     throw new Error('Failed to send WhatsApp message');
+    //   }
+
       toast({
-        title: "Message sent!",
+        title: 'Message sent!',
         description: "Thank you for contacting me. I'll get back to you soon!",
         duration: 5000,
       });
@@ -60,16 +93,16 @@ const Contact = () => {
         message: '',
       });
     } catch (error) {
-      console.error('Error sending message:', error);
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to send message. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setIsSubmitting(false);
     }
   };
+
 
   const contactInfo = [
     {
@@ -183,12 +216,7 @@ const Contact = () => {
             transition={{ duration: 0.5 }}
           >
         
-                <div className="grid gap-4">
-                 
-                 
-                </div>
-             
-
+           
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -219,20 +247,7 @@ const Contact = () => {
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium">
-                  Subject
-                </label>
-                <Input
-                  id="subject"
-                  name="subject"
-                  placeholder="What's this regarding?"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
+                <div className="space-y-2 resize-none">
                 <label htmlFor="message" className="text-sm font-medium">
                   Message
                 </label>
@@ -240,6 +255,7 @@ const Contact = () => {
                   id="message"
                   name="message"
                   placeholder="Your message"
+                  style={{ resize: 'none' }}
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
