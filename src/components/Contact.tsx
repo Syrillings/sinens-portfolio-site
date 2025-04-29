@@ -19,23 +19,15 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // EmailJS configuration
-  const [emailjsConfig, setEmailjsConfig] = useState({
-    serviceId: '',
-    templateId: '',
-    publicKey: ''
-  });
+  // EmailJS and WhatsApp configuration - hardcoded or from environment variables
+  const emailjsConfig = {
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'your_service_id',
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'your_template_id',
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key'
+  };
   
-  // Twilio WhatsApp configuration
-  const [twilioConfig, setTwilioConfig] = useState({
-    accountSid: '',
-    authToken: '',
-    whatsappNumber: '',
-    personalNumber: ''
-  });
-  
-  // Show/hide configuration form
-  const [showConfig, setShowConfig] = useState(false);
+  // Your WhatsApp number - hardcoded or from environment variables
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '2348148202992';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,22 +35,6 @@ const Contact = () => {
       ...prev,
       [name]: value,
     }));
-  };
-  
-  const handleConfigChange = (e: React.ChangeEvent<HTMLInputElement>, configType: 'emailjs' | 'twilio') => {
-    const { name, value } = e.target;
-    
-    if (configType === 'emailjs') {
-      setEmailjsConfig(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    } else {
-      setTwilioConfig(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,9 +59,8 @@ const Contact = () => {
       }
 
       // Send WhatsApp via direct link (no API needed)
-      // This opens WhatsApp with a pre-filled message but doesn't send automatically
-      if (twilioConfig.personalNumber) {
-        const formattedNumber = twilioConfig.personalNumber.replace(/\D/g, '');
+      if (whatsappNumber) {
+        const formattedNumber = whatsappNumber.replace(/\D/g, '');
         const whatsappMessage = `New message from ${formData.name} (${formData.email}):\n${formData.message}`;
         const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodeURIComponent(whatsappMessage)}`;
         
@@ -219,65 +194,6 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-            
-            <Button 
-              onClick={() => setShowConfig(!showConfig)} 
-              variant="outline" 
-              className="mt-6"
-              size="sm"
-            >
-              {showConfig ? "Hide Configuration" : "Configure Email/WhatsApp"}
-            </Button>
-            
-            {showConfig && (
-              <div className="mt-4 p-4 border rounded-md space-y-4">
-                <h4 className="text-sm font-medium">EmailJS Configuration</h4>
-                <div className="space-y-2">
-                  <div>
-                    <label htmlFor="serviceId" className="text-xs">Service ID</label>
-                    <Input 
-                      id="serviceId" 
-                      name="serviceId" 
-                      value={emailjsConfig.serviceId}
-                      onChange={(e) => handleConfigChange(e, 'emailjs')}
-                      placeholder="EmailJS Service ID"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="templateId" className="text-xs">Template ID</label>
-                    <Input 
-                      id="templateId" 
-                      name="templateId" 
-                      value={emailjsConfig.templateId}
-                      onChange={(e) => handleConfigChange(e, 'emailjs')}
-                      placeholder="EmailJS Template ID"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="publicKey" className="text-xs">Public Key</label>
-                    <Input 
-                      id="publicKey" 
-                      name="publicKey" 
-                      value={emailjsConfig.publicKey}
-                      onChange={(e) => handleConfigChange(e, 'emailjs')}
-                      placeholder="EmailJS Public Key"
-                    />
-                  </div>
-                </div>
-                
-                <h4 className="text-sm font-medium mt-4">WhatsApp Configuration</h4>
-                <div>
-                  <label htmlFor="personalNumber" className="text-xs">Your WhatsApp Number (with country code)</label>
-                  <Input 
-                    id="personalNumber" 
-                    name="personalNumber" 
-                    value={twilioConfig.personalNumber}
-                    onChange={(e) => handleConfigChange(e, 'twilio')}
-                    placeholder="e.g. 2348148202992"
-                  />
-                </div>
-              </div>
-            )}
           </motion.div>
           
           <motion.div 
