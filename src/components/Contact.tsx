@@ -176,7 +176,7 @@ const Contact = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.1 * index }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   <div className="p-3 rounded-full bg-muted flex items-center justify-center">
                     {info.icon}
@@ -241,7 +241,6 @@ const Contact = () => {
                       value={emailjsConfig.serviceId}
                       onChange={(e) => handleConfigChange(e, 'emailjs')}
                       placeholder="EmailJS Service ID"
-                      size="sm"
                     />
                   </div>
                   <div>
@@ -252,7 +251,6 @@ const Contact = () => {
                       value={emailjsConfig.templateId}
                       onChange={(e) => handleConfigChange(e, 'emailjs')}
                       placeholder="EmailJS Template ID"
-                      size="sm"
                     />
                   </div>
                   <div>
@@ -263,7 +261,6 @@ const Contact = () => {
                       value={emailjsConfig.publicKey}
                       onChange={(e) => handleConfigChange(e, 'emailjs')}
                       placeholder="EmailJS Public Key"
-                      size="sm"
                     />
                   </div>
                 </div>
@@ -277,7 +274,6 @@ const Contact = () => {
                     value={twilioConfig.personalNumber}
                     onChange={(e) => handleConfigChange(e, 'twilio')}
                     placeholder="e.g. 2348148202992"
-                    size="sm"
                   />
                 </div>
               </div>
