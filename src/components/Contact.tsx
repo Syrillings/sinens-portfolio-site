@@ -8,6 +8,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import emailjs from '@emailjs/browser';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -17,21 +24,29 @@ const Contact = () => {
     subject: '',
     message: '',
   });
+  
+  // Configuration state
+  const [configOpen, setConfigOpen] = useState(false);
+  const [config, setConfig] = useState({
+    emailjsServiceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || '',
+    emailjsTemplateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '',
+    emailjsPublicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '',
+    whatsappNumber: import.meta.env.VITE_WHATSAPP_NUMBER || '2348148202992',
+  });
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // EmailJS and WhatsApp configuration - hardcoded or from environment variables
-  const emailjsConfig = {
-    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'your_service_id',
-    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'your_template_id',
-    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key'
-  };
-  
-  // Your WhatsApp number - hardcoded or from environment variables
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '2348148202992';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  
+  const handleConfigChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setConfig((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -42,13 +57,13 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Send email via EmailJS
-      if (emailjsConfig.serviceId && emailjsConfig.templateId && emailjsConfig.publicKey) {
-        emailjs.init(emailjsConfig.publicKey);
+      // Send email via EmailJS if configured
+      if (config.emailjsServiceId && config.emailjsTemplateId && config.emailjsPublicKey) {
+        emailjs.init(config.emailjsPublicKey);
         
         await emailjs.send(
-          emailjsConfig.serviceId,
-          emailjsConfig.templateId,
+          config.emailjsServiceId,
+          config.emailjsTemplateId,
           {
             from_name: formData.name,
             from_email: formData.email,
@@ -59,8 +74,8 @@ const Contact = () => {
       }
 
       // Send WhatsApp via direct link (no API needed)
-      if (whatsappNumber) {
-        const formattedNumber = whatsappNumber.replace(/\D/g, '');
+      if (config.whatsappNumber) {
+        const formattedNumber = config.whatsappNumber.replace(/\D/g, '');
         const whatsappMessage = `New message from ${formData.name} (${formData.email}):\n${formData.message}`;
         const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodeURIComponent(whatsappMessage)}`;
         
@@ -203,6 +218,85 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
+            <Popover open={configOpen} onOpenChange={setConfigOpen}>
+              <PopoverTrigger asChild>
+                <Button 
+                  className="mb-6" 
+                  variant="outline" 
+                  size="sm"
+                >
+                  Configure Messaging
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Messaging Configuration</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Configure your EmailJS and WhatsApp details.
+                    </p>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="emailjsServiceId" className="text-right">
+                        Service ID
+                      </Label>
+                      <Input
+                        id="emailjsServiceId"
+                        name="emailjsServiceId"
+                        value={config.emailjsServiceId}
+                        onChange={handleConfigChange}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="emailjsTemplateId" className="text-right">
+                        Template ID
+                      </Label>
+                      <Input
+                        id="emailjsTemplateId"
+                        name="emailjsTemplateId"
+                        value={config.emailjsTemplateId}
+                        onChange={handleConfigChange}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="emailjsPublicKey" className="text-right">
+                        Public Key
+                      </Label>
+                      <Input
+                        id="emailjsPublicKey"
+                        name="emailjsPublicKey"
+                        value={config.emailjsPublicKey}
+                        onChange={handleConfigChange}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="whatsappNumber" className="text-right">
+                        WhatsApp
+                      </Label>
+                      <Input
+                        id="whatsappNumber"
+                        name="whatsappNumber"
+                        value={config.whatsappNumber}
+                        onChange={handleConfigChange}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                  </div>
+                  <Button 
+                    className="w-full" 
+                    size="sm" 
+                    onClick={() => setConfigOpen(false)}
+                  >
+                    Save Configuration
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
