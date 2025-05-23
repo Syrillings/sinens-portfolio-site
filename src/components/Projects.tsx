@@ -29,7 +29,7 @@ const languageColors: Record<string, string> = {
 const featuredProjects = [
   "Monk_Mode",
   "cosmic-discoveries",
-  "Tella",
+  "Naxzy",
   "TribeLight",
   "SEN211-Project",
   "Travel-Smart",

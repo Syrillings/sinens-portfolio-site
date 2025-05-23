@@ -48,7 +48,7 @@ const Contact = () => {
           },
         }),
       });
-
+      
       if (!response.ok) {
         throw new Error('Failed to send email');
       }

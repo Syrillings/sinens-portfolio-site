@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 
-export interface Repository {
+export interface Repo {
   id: number;
   name: string;
   description: string | null;
@@ -14,7 +14,7 @@ export interface Repository {
 }
 
 export const useGitHubRepositories = (username: string) => {
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repositories, setRepositories] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
