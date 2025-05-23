@@ -64,7 +64,7 @@ const About = () => {
       My journey in tech began when I first discovered the power of code to solve real-world problems and transform ideas into reality.
     </p>
     <p>
-      Over my tim ein this field, I've developed a deep expertise in frontend technologies, 
+      Over my time in this field, I've developed a deep expertise in frontend technologies, 
       with a particular love for React, TypeScript, and Vue.js. I believe in writing clean, maintainable code 
       that stands the test of time and can be easily understood by other developers.
     </p>
