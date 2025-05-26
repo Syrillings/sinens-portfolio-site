@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -10,8 +9,7 @@ const CodoraSection = () => {
         <Card className="overflow-hidden bg-gradient-to-br from-background via-background/95 to-background/90 border border-muted shadow-md">
           <CardContent className="p-6 md:p-12">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
-              
-              {/* Text Section */}
+            
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -28,13 +26,11 @@ const CodoraSection = () => {
                 </p>
                 <div className="flex justify-center md:justify-start">
                   <Button size="lg" className="group">
-                    Learn More
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    Coming Soon
                   </Button>
                 </div>
               </motion.div>
 
-              {/* Image Section */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
