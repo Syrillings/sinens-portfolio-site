@@ -25,7 +25,7 @@ const CodoraSection = () => {
                   compete with peers, and enhance your coding knowledge through interactive challenges.
                 </p>
                 <div className="flex justify-center md:justify-start">
-                  <a href= "https://codora-waitlist.vercel.app">
+                  <a href= "https://codoraofficialsite.vercel.app">
                   <Button size="lg" className="group">
                     Learn More →
                   </Button>
